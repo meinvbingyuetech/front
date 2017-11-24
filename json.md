@@ -8,4 +8,18 @@ var obj = JSON.parse(str);
 var obj = {a:1,b:2};
 var str = JSON.stringify(obj);
 
+
+// 删除
+var user  = {
+    'user1' : {
+        'name' : 'meinvbingyue'
+    },
+    'user2' : {
+        'name' : 'jason'
+    },
+};
+delete user['user1'];
+console.log(user);
+
+
 ```
