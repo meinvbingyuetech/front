@@ -5,7 +5,7 @@ tar -jxvf phantomjs-2.1.1-linux-x86_64.tar.bz2
 phantomjs-2.1.1-linux-x86_64/bin/phantomjs -v
  
 如果地址失效，则访问自己的百度网盘
-https://pan.baidu.com/s/1snftaAp
+https://pan.baidu.com/s/1jIVNB3S
 ```
 
 ## request.js
@@ -65,4 +65,23 @@ phantomjs require.js http://www.baidu.com baidu.png
 
         $flag = exec($command,$output,$return);
         dd($output,$return,$flag);
+```
+
+## 解决中文乱码
+```
+yum install bitmap-fonts bitmap-fonts-cjk
+```
+
+## 解决字体大小不一
+```
+yum -y install mkfontscale fontconfig
+mkdir /usr/share/fonts/win/
+cd /usr/share/fonts/win/
+wget https://cdn.bingo.ren/msyh.ttf -O /usr/share/fonts/win/msyh.ttf
+mkfontscale
+mkfontdir
+fc-cache
+
+如果地址失效，则访问自己的百度网盘
+https://pan.baidu.com/s/1qZPLXrY
 ```
