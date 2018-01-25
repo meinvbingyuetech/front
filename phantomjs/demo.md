@@ -3,7 +3,9 @@
 wget https://cdn.bingo.ren/phantomjs-2.1.1-linux-x86_64.tar.bz2
 tar -jxvf phantomjs-2.1.1-linux-x86_64.tar.bz2
 phantomjs-2.1.1-linux-x86_64/bin/phantomjs -v
-
+ 
+如果地址失效，则访问自己的百度网盘
+https://pan.baidu.com/s/1snftaAp
 ```
 
 ## request.js
