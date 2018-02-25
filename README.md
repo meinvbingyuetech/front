@@ -15,4 +15,12 @@ if (typeof(file_name) == "undefined")
     return;
 }
 ```
- 
+
+### 判断变量是否null
+```js
+var exp = null; 
+if (!exp && typeof(exp)!=”undefined” && exp!=0) 
+{ 
+alert(“is null”); 
+}　
+```
