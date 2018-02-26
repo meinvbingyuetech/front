@@ -1,4 +1,11 @@
 ```js
+var str = "";
+for (let val of ['a','b','c']) {
+  str += val;
+}
+
+console.log(str);
+// expected output: "abc"
 
 for(var i in arr){
 
