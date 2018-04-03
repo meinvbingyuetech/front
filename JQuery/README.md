@@ -4,7 +4,7 @@ a href="javascript:void(0);" data-name="meinvbingyue" data-id="1" class="grid-ro
                                         
 $('.grid-row-delete').click(function () {
     var name = $(this).data('name');
-    var id = $(this).data);
+    var id = $(this).data('id');
     console.log(name)
 });
 ```
