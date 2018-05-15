@@ -8,3 +8,11 @@ $('.grid-row-delete').click(function () {
     console.log(name)
 });
 ```
+ 
+- 统计元素操作
+```
+$('button[name="at_platform"]').click(function () {
+                var id = $(this).siblings('input[name="id"]').val();
+                console.log(id)
+            });
+```
