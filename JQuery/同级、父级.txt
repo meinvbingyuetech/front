@@ -1,0 +1,13 @@
+$("p").parents(".comment-con").siblings('.post-comt')
+
+
+parent()-->是找父级元素(爸爸)
+
+
+parents()-->是找祖先元素(祖宗)
+
+
+siblings()-->是找同级元素(同辈)
+
+
+children()-->是找子元素(儿子)

@@ -1,0 +1,16 @@
+$.ajax({
+async:false,
+type:'GET',
+dataType: 'jsonp',
+url:'http://app.imus.cn/search/list/',
+data:{'async':"yes",'action':'v1','page':'1','maxsize':'10','sort':'hot'},
+jsonp: 'jsoncallback',
+success:
+      function(data){
+	  $.each(data.msg,function(key,item){
+	      //alert(item.keyword);
+	      html += "<div class='item' onmouseenter='getFocus(this)' onClick='getCon(this);'>" + item.keyword + "</div>";
+	  });
+	  $("#append").show().html(html);
+      }
+});

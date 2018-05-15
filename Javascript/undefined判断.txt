@@ -1,0 +1,31 @@
+if((typeof(_province_html) != "undefined")){
+	//不是undefined
+}
+
+/*********************************************************************************************************/
+//初始化省份
+ var node_province = $("#province");
+ var _province_html = node_province.html();
+ var _is_self = node_province.attr("self");
+ if((typeof(_province_html) != "undefined") && (typeof(_is_self) == "undefined")){//有province节点，并且没有定义要自定义加载，则默认加载所有省份数据
+	get_province(node_province);
+ }
+
+ //选择省份后，获取市
+ var node_city = $("#city");
+ $("#province").change(function(){
+	get_city(node_city,this.value);
+	$(this).css('background','#fff')
+ });
+ 
+ //选取市后，获取县
+ var node_district = $("#district");
+ $("#city").change(function(){
+	get_district(node_district,this.value);
+	$(this).css('background','#fff')
+	
+ });
+ $("#district").change(function(){
+	$(this).css('background','#fff')
+	
+ });

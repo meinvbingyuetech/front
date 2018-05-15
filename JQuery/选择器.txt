@@ -1,0 +1,47 @@
+$('#registerForm .alert').hide();
+$("div.profile .alert").hide();
+
+var $el_val = $('.is_admin:checked').val();
+
+$(this).parents('.permission_group').find('input[type="checkbox"]').prop('checked','true');
+$(this).parents('.permission_group').find('input[type="checkbox"]').removeAttr('checked');
+
+$("input[name='points_type']:checked").val();	// radio
+
+$("input[name='points_type']").on("click",function(){
+	alert($(this).val());
+});
+
+$("select[name='bonus_status']").on("change",function(){	//select
+	if(this.value!=''){
+		location.href=this.value;
+	}
+});
+
+$("a[name='anti_recovery']").on("click",function(){		//name属性
+
+});
+
+$("#bonus_code,#points").bind('keyup',function(event) {		//多个节点
+	if (event.keyCode == 13) {
+		if(event.target.attributes.name.value=='points'){
+			points_bonus();
+		}
+		else if(event.target.attributes.name.value=='bonus_code'){
+			active_bonus();
+		}
+	}
+});
+
+var username = $("input[name='username']"); //文本框
+
+var title = $("input[name=title]").val(); 
+
+
+var sex = $(':input[name=sex]').val();// 这样获取试试，text的也可以这样使用
+
+
+// <a name="block_user" data-id="20078" href="#">解封</a>
+$('a[name=block_user]').click(function(){
+
+});

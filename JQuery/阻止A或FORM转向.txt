@@ -1,0 +1,37 @@
+
+$("a").click(function (e) {
+	e.preventDefault();  //阻止超链接的转向
+});
+
+==============================================================
+$("a").click(function(event) {
+  event.preventDefault();
+  $('<div/>')
+    .append('default ' + event.type + ' prevented')
+    .appendTo('#log');
+});
+
+=============================================================
+$('#myform').submit(function(event) {
+event.preventDefault();
+var self = this;
+window.setTimeout(function() {
+self.submit();
+}, 2000);
+}); 
+
+$('form').submit(function(event) {
+                event.preventDefault();
+                var fields = $(this).serializeArray();
+                var fields2 = $(this).serialize();
+
+                $.each(fields,
+                function(i, field) {
+					if(field.name=='txtname' && field.value==''){
+						alert("用户名不能为空！");
+						$("#"+field.name).focus();
+						return false;
+					}
+                    alert("" + field.name + "---" + field.value + "");
+                });
+            });

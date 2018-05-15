@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>验证码</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<script language="javascript">
+function newgdcode(obj,url) {
+obj.src = url+ '?nowtime=' + new Date().getTime();
+//后面传递一个随机参数，否则在IE7和火狐下，不刷新图片
+}
+</script>
+<body>
+<img src="imgcode.php" alt="看不清楚，换一张" align="absmiddle" style="cursor: pointer;" onclick="newgdcode(this,this.src);" />
+</body>
+</head>
+</html>
+
+
+
+<html>
+<head>
+<title>验证码2</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<body>
+
+<input name="yzm" type="text" id="yzm" placeholder="请输入验证码" style="width: 147px" maxlength="4" />
+<img style="cursor: hand; vertical-align: top" id="yzmimg" onclick="con_code();" alt="点击更换随机验证码" src="key.aspx">
+
+<script type="text/javascript">
+	function con_code() {
+		document.all.yzmimg.src = "key.aspx?" + Math.random();
+	}
+	con_code();
+</script>
+
+</body>
+</head>
+</html>

@@ -1,0 +1,16 @@
+//错误提示 --  1500毫秒后隐藏
+var msg_html = "<div id='msg_error' style='background:#fd6842;text-align:center;color:#fff;width:100%;position:fixed;top:0;left:0;line-height:30px;font-size:14px;display:none;'>请您输入文字内容</div>";
+$("body").append(msg_html);
+$("#msg_error").fadeIn(500);
+setTimeout(function(){
+	$("#msg").fadeOut(500).remove();
+},1500);
+
+
+//成功提示
+var msg_html = "<div id='msg_success' style='background:#95c51b;text-align:center;color:#fff;width:100%;position:fixed;top:0;left:0;line-height:30px;font-size:14px;display:none;'>发表成功！</div>";
+$("body").append(msg_html);
+$("#msg_success").fadeIn(500);
+setTimeout(function(){
+	location.href='/';
+},1500);

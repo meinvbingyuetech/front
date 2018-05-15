@@ -1,0 +1,23 @@
+<a id="anchor_1"></a>
+
+<script type="text/javascript">
+
+$(function(){
+	//是否有锚点跳转
+	var param = get_param(window.location.href);
+	if(param!=''){
+		$("body,html").animate({scrollTop:$("#anchor_"+param).offset().top-150});
+	}
+});
+
+//获取链接里的锚点
+function get_param(url){
+	var param = '';
+	var arg = url.split("#");
+	if(arg.length==2){
+		param = arg[1];
+	}
+	return param;
+}
+
+</script>

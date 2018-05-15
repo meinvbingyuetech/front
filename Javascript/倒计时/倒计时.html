@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>倒计时</title>
+</head>
+
+<body>
+<span id="times"></span>
+
+<SCRIPT LANGUAGE="JavaScript">
+function fresh()
+{
+	var endtime=new Date("2011/12/14,19:21:00");
+	var nowtime = new Date();
+	var leftsecond=parseInt((endtime.getTime()-nowtime.getTime())/1000);
+
+	d=parseInt(leftsecond/3600/24);//天
+	h=parseInt((leftsecond/3600));//时
+	m=parseInt((leftsecond/60)%60);//分
+	s=parseInt(leftsecond%60);//秒
+
+	document.getElementById("times").innerHTML= leftsecond+"秒";
+	if(leftsecond<=0){
+		clearInterval(sh);
+		location.href='http://www.baidu.com';
+	}
+}
+
+fresh()
+var sh;
+sh=setInterval(fresh,1000);
+</SCRIPT>
+</body>
+</html>

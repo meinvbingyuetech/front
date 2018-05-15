@@ -1,0 +1,362 @@
+/*
+* 0:去除超连接
+* 1:替换关键字
+*/
+function contentRepEdit(tt)
+{
+	if(typeof(rep_lists)=="undefined")
+	{
+		alert('缓存文件失效，请联系管理');	
+	}
+	else
+	{
+		var oEditor=FCKeditorAPI.GetInstance('zt_content');
+		var old_c=oEditor.GetXHTML(true);
+		if(tt==1) //替换关键字连接
+		{
+			var str_search="";
+			var str_rep="";
+			var rep,reprep;
+			for(var low_num in rep_lists)//注意是从后向前
+			{	
+				str_search=rep_lists[low_num][0];
+				str_rep=rep_lists[low_num][1];
+				rep= new RegExp('[^>\/]('+str_search+')[^<\/]',"gi");
+				matchstr=old_c.match(rep);
+				if(matchstr)
+				{
+					for(var i=matchstr.length-1;i>=0;i--)
+					{
+						reprep= new RegExp(str_search,"gi");
+						old_c=old_c.replace(matchstr[i],matchstr[i].replace(reprep,str_rep));
+					}
+				}
+			}
+		}
+		else //去除连接
+		{
+			/*
+			g：代表可以进行全局匹配。
+			i：代表不区分大小写匹配。
+			m：代表可以进行多行匹配。
+			([\\s\\S]*) 匹配任意字符
+			([\\s\\S]*?) 匹配任意字符--非贪婪模式
+			*/
+			rep=new RegExp("<script ([^>]*)>([\\s\\S]*?)<\/script>","gmi");  //去除javascript
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp("<script>([\\s\\S]*?)<\/script>","gmi");  //去除javascript
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp("<a ([^>]*)>(([^<]*)*)<\/a>","gi");  //去除连接
+			old_c=old_c.replace(rep,'$2');
+			rep=new RegExp("<a ([^>]*)><img (.*)\/><\/a>","gi");  //去除连接
+			old_c=old_c.replace(rep,'<img $2\/>');
+			rep=new RegExp('onload="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('onmousewheel="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('onmouseover="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('id="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('file="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('onclick="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('style="text-align: center;"',"gi");
+			old_c=old_c.replace(rep,'align="center"');
+			rep=new RegExp('style="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('class="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp("&nbsp;","gi"); //去除多余标签
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('cellspacing="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('fcksavedurl="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('cellpadding="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('oldsrc="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('alt="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('height="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('width="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('size="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('face="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('color="([^"]*)"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('align="left"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp('align="right"',"gi");
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp("<p><\/p>","gi"); //去除多余标签
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp("<div><\/div>","gi"); //去除多余标签
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp("<div>","gi"); //去除多余标签
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp("<u>","gi"); //去除多余标签
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp("<table>","gi"); //去除多余标签
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp("<tbody>","gi"); //去除多余标签
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp("<tr>","gi"); //去除多余标签
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp("<td>","gi"); //去除多余标签
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp("<span>","gi"); //去除多余标签
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp("<font>","gi"); //去除多余标签
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp("<wbr>","gi"); //去除多余标签
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp("　　","gi"); //去除多余标签
+			old_c=old_c.replace(rep,'');
+			rep=new RegExp("<br \/>\n<br \/>\n<br \/>\n","gmi");  //转换
+			old_c=old_c.replace(rep,'<br \/><br \/>');
+		}
+		oEditor.SetHTML(old_c) ; 
+	}
+}
+
+
+var rep_lists = {
+    189 : ["fate stay night", "<a href='/cartoon/fate-stay-night/'>fate stay night</a>"],
+    222 : ["Angel Beats", "<a href='/cartoon/angel-beats/'>Angel Beats</a>"],
+    168 : ["机动战士高达00", "<a href='/cartoon/jidongzhanshigaoda-00/'>机动战士高达00</a>"],
+    101 : ["xxxHOLiC", "<a href='/cartoon/XXXholic/'>xxxHOLiC</a>"],
+    192 : ["战国BASARA", "<a href='/cartoon/zhanguobasara/'>战国BASARA</a>"],
+    265 : ["jojo奇妙冒险", "<a href='/cartoon/jojoqimiaomaoxian/'>jojo奇妙冒险</a>"],
+    176 : ["穿越时空的少女", "<a href='/cartoon/7397/'>穿越时空的少女</a>"],
+    128 : ["无头骑士异闻录", "<a href='/cartoon/wutouqishiyiwenlu/'>无头骑士异闻录</a>"],
+    50 : ["今天开始做魔王", "<a href='/cartoon/jintiankaishizuomowang/'>今天开始做魔王</a>"],
+    53 : ["clannad", "<a href='/cartoon/CLANNAD/'>clannad</a>"],
+    283 : ["银河铁道999", "<a href='/cartoon/yinhetedao999/'>银河铁道999</a>"],
+    278 : ["level e", "<a href='/cartoon/level-e/'>level e</a>"],
+    95 : ["百变小樱魔术卡", "<a href='/cartoon/baibianxiaoyingmoshuka/'>百变小樱魔术卡</a>"],
+    287 : ["完美小姐进化论", "<a href='/cartoon/wanmeixiaojiejinhualun/'>完美小姐进化论</a>"],
+    82 : ["梦比优斯奥特曼", "<a href='/cartoon/mengbiyousiaoteman/'>梦比优斯奥特曼</a>"],
+    203 : ["SHUFFLE", "<a href='/cartoon/Shuffle/'>SHUFFLE</a>"],
+    202 : ["科学的超电磁炮", "<a href='/cartoon/kexuedechaodiancipao/'>科学的超电磁炮</a>"],
+    57 : ["叛逆的鲁路修", "<a href='/cartoon/pannide-luluxiu/'>叛逆的鲁路修</a>"],
+    78 : ["再见绝望先生", "<a href='/cartoon/zaijian_juewangxiansheng/'>再见绝望先生</a>"],
+    124 : ["心灵侦探八云", "<a href='/cartoon/xinlingzhentanbayun/'>心灵侦探八云</a>"],
+    64 : ["银河英雄传说", "<a href='/cartoon/yinheyingxiongchuanshuo/'>银河英雄传说</a>"],
+    92 : ["机动战士高达", "<a href='/cartoon/jidongzhanshigaoda/'>机动战士高达</a>"],
+    107 : ["寒蝉鸣泣之时", "<a href='/cartoon/hanchanmingqizhishi/'>寒蝉鸣泣之时</a>"],
+    104 : ["舞乙hime", "<a href='/cartoon/wuyiHiME/'>舞乙hime</a>"],
+    229 : ["超时空要塞F", "<a href='/cartoon/chaoshikongyaosaiF/'>超时空要塞F</a>"],
+    126 : ["管家后宫学园", "<a href='/cartoon/guanjiahougongxueyuan/'>管家后宫学园</a>"],
+    263 : ["搞笑漫画日和", "<a href='/tags/%B8%E3%D0%A6%C2%FE%BB%AD%C8%D5%BA%CD'>搞笑漫画日和</a>"],
+    148 : ["我的狐仙女友", "<a href='/cartoon/wodehuxiannvyou/'>我的狐仙女友</a>"],
+    163 : ["高达seed", "<a href='/cartoon/gaodaSEED/'>高达seed</a>"],
+    138 : ["魔法禁书目录", "<a href='/cartoon/mofajinshumulu/'>魔法禁书目录</a>"],
+    174 : ["圣剑之刀锻冶", "<a href='/cartoon/shengjianzhidaoduanye/'>圣剑之刀锻冶</a>"],
+    173 : ["吸血鬼猎人D", "<a href='/cartoon/xixuegueilieren-d/'>吸血鬼猎人D</a>"],
+    169 : ["高达0079", "<a href='/cartoon/gaoda0079/'>高达0079</a>"],
+    297 : ["这个是僵尸吗", "<a href=''>这个是僵尸吗</a>"],
+    147 : ["CANAAN", "<a href='/cartoon/CANAAN/'>CANAAN</a>"],
+    177 : ["海猫鸣泣之时", "<a href='/cartoon/haimaomingqizhishi/'>海猫鸣泣之时</a>"],
+    180 : ["魔法少女奈叶", "<a href='/cartoon/mofashaonvnaiye/'>魔法少女奈叶</a>"],
+    28 : ["钢之炼金术师", "<a href='/cartoon/gangzhilianjinshushi/'>钢之炼金术师</a>"],
+    4 : ["天才麻将少女", "<a href='/cartoon/tiancaimajiangshaonv/'>天才麻将少女</a>"],
+    96 : ["棒球大联盟", "<a href='/cartoon/banqqiudalianmeng-/'>棒球大联盟</a>"],
+    149 : ["电波系彼女", "<a href='/cartoon/dianboxibinv/'>电波系彼女</a>"],
+    89 : ["交响情人梦", "<a href='/cartoon/jiaoxiangqingrenmeng/'>交响情人梦</a>"],
+    94 : ["超时空要塞", "<a href='/cartoon/chaoshikongyaosai/'>超时空要塞</a>"],
+    161 : ["聪明的一休", "<a href='/cartoon/congmingdeyixiu/'>聪明的一休</a>"],
+    112 : ["最后大魔王", "<a href='/cartoon/zuihoudamowang/'>最后大魔王</a>"],
+    158 : ["图书馆战争", "<a href='/cartoon/tushuguanzhanzheng/'>图书馆战争</a>"],
+    84 : ["艾斯奥特曼", "<a href='/cartoon/aisiaoteman/'>艾斯奥特曼</a>"],
+    83 : ["雷欧奥特曼", "<a href='/cartoon/leiouaoteman/'>雷欧奥特曼</a>"],
+    81 : ["泰罗奥特曼", "<a href='/cartoon/tailuoaoteman/'>泰罗奥特曼</a>"],
+    186 : ["妖精的尾巴", "<a href='/cartoon/yaojingdeweiba/'>妖精的尾巴</a>"],
+    145 : ["伯爵与妖精", "<a href='/cartoon/bojueyuyaojing/'>伯爵与妖精</a>"],
+    185 : ["死神的歌谣", "<a href='/cartoon/sishendegeyao/'>死神的歌谣</a>"],
+    110 : ["少年阴阳师", "<a href='/cartoon/shaonianyinyangshi/'>少年阴阳师</a>"],
+    108 : ["遥远时空中", "<a href='/cartoon/yaoyuanshikongzhong-/'>遥远时空中</a>"],
+    75 : ["日本动画片", "<a href='/board/cartoon/jp/'>日本动画片</a>"],
+    106 : ["南家三姐妹", "<a href='/cartoon/nanjiasanjiemei/'>南家三姐妹</a>"],
+    103 : ["舞hime", "<a href='/cartoon/wu-hime-/'>舞hime</a>"],
+    194 : ["好想告诉你", "<a href='/cartoon/haoxianggaosuni/'>好想告诉你</a>"],
+    100 : ["秀逗魔导士", "<a href='/cartoon/xiudoumodaoshi-/'>秀逗魔导士</a>"],
+    99 : ["全金属狂潮", "<a href='/cartoon/-quanjinshukuangchao-/'>全金属狂潮</a>"],
+    195 : ["滑头鬼之孙", "<a href='/cartoon/huatouguizhisun/'>滑头鬼之孙</a>"],
+    97 : ["赛文奥特曼", "<a href='/cartoon/saiwenaoteman/'>赛文奥特曼</a>"],
+    80 : ["迪迦奥特曼", "<a href='/cartoon/dijiaaoteman/'>迪迦奥特曼</a>"],
+    208 : ["魔神英雄传", "<a href='/cartoon/moshenyingxiongzhuan/'>魔神英雄传</a>"],
+    52 : ["樱桃小丸子", "<a href='/cartoon/yingtaoxiaowanzi/'>樱桃小丸子</a>"],
+    237 : ["魔女宅急便", "<a href='/cartoon/monvzhaijibian/'>魔女宅急便</a>"],
+    239 : ["魔力女管家", "<a href='/cartoon/molinvguanjia/'>魔力女管家</a>"],
+    115 : ["魔神英雄坛", "<a href='/cartoon/moshenyingxiongtan/'>魔神英雄坛</a>"],
+    273 : ["怪医黑杰克", "<a href='/cartoon/guaiyiheijieke/'>怪医黑杰克</a>"],
+    268 : ["猫眼三姐妹", "<a href='/cartoon/maoyansanjiemei/'>猫眼三姐妹</a>"],
+    146 : ["狼与香辛料", "<a href='/cartoon/langyuxiangxinliao/'>狼与香辛料</a>"],
+    27 : ["吸血鬼骑士", "<a href='/cartoon/xixueguiqishi/'>吸血鬼骑士</a>"],
+    258 : ["SA特优生", "<a href='/cartoon/SAteyousheng/'>SA特优生</a>"],
+    33 : ["美少女战士", "<a href='/cartoon/meishaonvzhanshi/'>美少女战士</a>"],
+    264 : ["中华小当家", "<a href='/cartoon/zhonghuaxiaodangjia/'>中华小当家</a>"],
+    66 : ["索斯机械兽", "<a href='/cartoon/suosijixieshou/'>索斯机械兽</a>"],
+    67 : ["灼眼的夏娜", "<a href='/cartoon/zhuoyandexiana/'>灼眼的夏娜</a>"],
+    266 : ["夜樱四重奏", "<a href='/cartoon/13693/'>夜樱四重奏</a>"],
+    261 : ["夏目友人帐", "<a href='/cartoon/xiamuyourenzhang/'>夏目友人帐</a>"],
+    74 : ["国产动画片", "<a href='/board/cartoon/cn/'>国产动画片</a>"],
+    249 : ["水星领航员", "<a href='/cartoon/shuixinglinghangyuan/'>水星领航员</a>"],
+    68 : ["攻壳机动队", "<a href='/cartoon/gongkejidongdui/'>攻壳机动队</a>"],
+    76 : ["munto", "<a href='/cartoon/MUNTO/'>munto</a>"],
+    10 : ["成龙历险记", "<a href='/cartoon/chenglonglixianji/'>成龙历险记</a>"],
+    296 : ["面包超人", "<a href='/cartoon/mianbaochaoren/'>面包超人</a>"],
+    184 : ["爱的魔法", "<a href='/cartoon/aidemofa/'>爱的魔法</a>"],
+    156 : ["奇诺之旅", "<a href='/cartoon/qinuozhilv/'>奇诺之旅</a>"],
+    159 : ["初恋限定", "<a href='/cartoon/chulianxianding/'>初恋限定</a>"],
+    178 : ["机巧魔神", "<a href='/cartoon/jiqiaomoshen/'>机巧魔神</a>"],
+    267 : ["城市猎人", "<a href='/cartoon/chengshilieren/'>城市猎人</a>"],
+    182 : ["永生之酒", "<a href='/cartoon/yongshengzhijiu/'>永生之酒</a>"],
+    293 : ["人鱼之森", "<a href='/cartoon/renyuzhisen/'>人鱼之森</a>"],
+    276 : ["日在校园", "<a href='/cartoon/rizaixiaoyuan/'>日在校园</a>"],
+    286 : ["四驱兄弟", "<a href='/cartoon/siquxiongdi/'>四驱兄弟</a>"],
+    285 : ["多啦A梦", "<a href='/cartoon/duolaameng/'>多啦A梦</a>"],
+    167 : ["高达00", "<a href='/cartoon/gaoda00/'>高达00</a>"],
+    284 : ["魔兵传奇", "<a href='/cartoon/mobingchuanqi/'>魔兵传奇</a>"],
+    281 : ["大闹天宫", "<a href='/cartoon/danaotiangong-/'>大闹天宫</a>"],
+    289 : ["nana", "<a href='/cartoon/Nana/'>nana</a>"],
+    290 : ["棒球英豪", "<a href='/cartoon/bangqiuyinghao/'>棒球英豪</a>"],
+    280 : ["金猴降妖", "<a href='/cartoon/jinhoujiangyao/'>金猴降妖</a>"],
+    162 : ["风之圣痕", "<a href='/cartoon/fengzhishenghen/'>风之圣痕</a>"],
+    250 : ["水果篮子", "<a href='/cartoon/shuiguolanzi-/'>水果篮子</a>"],
+    233 : ["天空之城", "<a href='/cartoon/tiankongzhicheng-/'>天空之城</a>"],
+    232 : ["幽灵公主", "<a href='/cartoon/youlinggongzhu-/'>幽灵公主</a>"],
+    231 : ["千与千寻", "<a href='/cartoon/qianyuqianxun/'>千与千寻</a>"],
+    196 : ["惊爆草莓", "<a href='/cartoon/jingbaocaomei/'>惊爆草莓</a>"],
+    197 : ["黑猫警长", "<a href='/cartoon/heimaojingzhang/'>黑猫警长</a>"],
+    198 : ["天线宝宝", "<a href='/cartoon/tianxianbaobao/'>天线宝宝</a>"],
+    224 : ["福星小子", "<a href='/cartoon/fuxingxiaozi/'>福星小子</a>"],
+    221 : ["海尔兄弟", "<a href='/cartoon/haierxiongdi/'>海尔兄弟</a>"],
+    220 : ["黑塔利亚", "<a href='/cartoon/heitaliya/'>黑塔利亚</a>"],
+    234 : ["恶魔奶爸", "<a href='/cartoon/emonaiba/'>恶魔奶爸</a>"],
+    235 : ["魔法老师", "<a href='/cartoon/mofalaoshi/'>魔法老师</a>"],
+    187 : ["驱魔少年", "<a href='/cartoon/qumoshaonian-/'>驱魔少年</a>"],
+    188 : ["圣母在上", "<a href='/cartoon/shengmuzaishang/'>圣母在上</a>"],
+    199 : ["大力水手", "<a href='/cartoon/dalishuishou/'>大力水手</a>"],
+    193 : ["强袭魔女", "<a href='/cartoon/qiangqimonv-/'>强袭魔女</a>"],
+    248 : ["七龙珠z", "<a href='/cartoon/qilongzhuz/'>七龙珠z</a>"],
+    245 : ["宝石宠物", "<a href='/cartoon/baoshichongwu/'>宝石宠物</a>"],
+    244 : ["秦时明月", "<a href='/tags/%C7%D8%CA%B1%C3%F7%D4%C2'>秦时明月</a>"],
+    241 : ["假面骑士", "<a href='/tags/%BC%D9%C3%E6%C6%EF%CA%BF'>假面骑士</a>"],
+    236 : ["猫的报恩", "<a href='/cartoon/maodebaoen/'>猫的报恩</a>"],
+    213 : ["快乐驿站", "<a href='/cartoon/kuaileyizhan/'>快乐驿站</a>"],
+    41 : ["摩尔庄园", "<a href='/cartoon/moerzhuangyuan/'>摩尔庄园</a>"],
+    73 : ["小鬼当家", "<a href='/cartoon/xiaoguidangjia/'>小鬼当家</a>"],
+    1 : ["超能勇士", "<a href='/cartoon/chaonengyongshi/'>超能勇士</a>"],
+    34 : ["旋风管家", "<a href='/cartoon/xuanfengguanjia/'>旋风管家</a>"],
+    77 : ["绝望先生", "<a href='/cartoon/juewangxiansheng/'>绝望先生</a>"],
+    29 : ["神兵小将", "<a href='/cartoon/shenbingxiaojiang/'>神兵小将</a>"],
+    23 : ["数码宝贝", "<a href='/cartoon/shumabaobei-/'>数码宝贝</a>"],
+    79 : ["恐龙战队", "<a href='/cartoon/konglongzhandui/'>恐龙战队</a>"],
+    85 : ["空之境界", "<a href='/cartoon/kongzhijingjie/'>空之境界</a>"],
+    87 : ["幽游白书", "<a href='/cartoon/youyoubaishu/'>幽游白书</a>"],
+    19 : ["家庭教师", "<a href='/cartoon/jiatingjiaoshi/'>家庭教师</a>"],
+    18 : ["花园宝宝", "<a href='/cartoon/huayuanbaobao/'>花园宝宝</a>"],
+    91 : ["赏金猎人", "<a href='/cartoon/shangjinlieren/'>赏金猎人</a>"],
+    72 : ["格林童话", "<a href='/cartoon/gelintonghua/'>格林童话</a>"],
+    71 : ["机动警察", "<a href='/cartoon/jidongjingcha/'>机动警察</a>"],
+    39 : ["东方神娃", "<a href='/cartoon/dongfangshenwa/'>东方神娃</a>"],
+    47 : ["足球小将", "<a href='/cartoon/zuqiuxiaojiang/'>足球小将</a>"],
+    48 : ["足球小子", "<a href='/cartoon/zuqiuxiaozi/'>足球小子</a>"],
+    49 : ["北斗神拳", "<a href='/cartoon/beidoushenquan/'>北斗神拳</a>"],
+    59 : ["变形金刚", "<a href='/cartoon/bianxingjingang/'>变形金刚</a>"],
+    60 : ["海绵宝宝", "<a href='/cartoon/haimianbaobao/'>海绵宝宝</a>"],
+    38 : ["头文字d", "<a href='/cartoon/touwenzid/'>头文字d</a>"],
+    63 : ["装甲骑兵", "<a href='/cartoon/zhuangjiaqibing/'>装甲骑兵</a>"],
+    36 : ["葫芦兄弟", "<a href='/cartoon/huluxiongdi_/'>葫芦兄弟</a>"],
+    65 : ["樱花大战", "<a href='/cartoon/yinghuadazhan/'>樱花大战</a>"],
+    35 : ["神幻拍档", "<a href='/cartoon/shenhuanpaidang/'>神幻拍档</a>"],
+    70 : ["芭比公主", "<a href='/cartoon/babigongzhu/'>芭比公主</a>"],
+    93 : ["太空堡垒", "<a href='/cartoon/taikongbaolei/'>太空堡垒</a>"],
+    98 : ["魔法先生", "<a href='/cartoon/mofaxiansheng/'>魔法先生</a>"],
+    9 : ["火影忍者", "<a href='/cartoon/huoyingrenzhe/'>火影忍者</a>"],
+    132 : ["黑血兄弟", "<a href='/cartoon/heixuexiongdi/'>黑血兄弟</a>"],
+    155 : ["神曲奏界", "<a href='/cartoon/shenquzoujie/'>神曲奏界</a>"],
+    102 : ["翼年代记", "<a href='/cartoon/yiniandaiji-/'>翼年代记</a>"],
+    135 : ["我的女神", "<a href='/cartoon/wodenvshen/'>我的女神</a>"],
+    139 : ["零之使魔", "<a href='/cartoon/lingzhishimo/'>零之使魔</a>"],
+    141 : ["空罐少女", "<a href='/cartoon/kongguanshaonv/'>空罐少女</a>"],
+    6 : ["守护甜心", "<a href='/cartoon/shouhutianxin/'>守护甜心</a>"],
+    143 : ["黄金矿工", "<a href='/youxi/minjie/6454/'>黄金矿工</a>"],
+    37 : ["忍者神龟", "<a href='/cartoon/renzheshengui/'>忍者神龟</a>"],
+    151 : ["十二国记", "<a href='/cartoon/shierguoji/'>十二国记</a>"],
+    153 : ["战斗司书", "<a href='/cartoon/zhandousishu/'>战斗司书</a>"],
+    5 : ["百变小樱", "<a href='/cartoon/baibianxiaoying/'>百变小樱</a>"],
+    130 : ["樱色家族", "<a href='/cartoon/yingsejiazu/'>樱色家族</a>"],
+    17 : ["蜡笔小新", "<a href='/cartoon/labixiaoxin/'>蜡笔小新</a>"],
+    15 : ["神奇宝贝", "<a href='/cartoon/shenqibaobei/'>神奇宝贝</a>"],
+    16 : ["网球王子", "<a href='/cartoon/wangqiuwangzi/'>网球王子</a>"],
+    12 : ["哆啦a梦", "<a href='/cartoon/duolaameng-/'>哆啦a梦</a>"],
+    11 : ["猫和老鼠", "<a href='/cartoon/maohelaoshu/'>猫和老鼠</a>"],
+    116 : ["神龙斗士", "<a href='/cartoon/shenlongdoushi/'>神龙斗士</a>"],
+    274 : ["倒霉熊", "<a href='/cartoon/daomeixiong/'>倒霉熊</a>"],
+    14 : ["犬夜叉", "<a href='/cartoon/quanyecha/'>犬夜叉</a>"],
+    279 : ["空之音", "<a href='/cartoon/kongzhiyin/'>空之音</a>"],
+    247 : ["龙珠Z", "<a href='/cartoon/longzhuZ/'>龙珠Z</a>"],
+    246 : ["龙珠改", "<a href='/cartoon/longzhugai/'>龙珠改</a>"],
+    21 : ["游戏王", "<a href='/cartoon/youxiwang/'>游戏王</a>"],
+    13 : ["七龙珠", "<a href='/cartoon/qilongzhu/'>七龙珠</a>"],
+    295 : ["睡美人", "<a href='/cartoon/shuimeiren/'>睡美人</a>"],
+    30 : ["黑执事", "<a href='/cartoon/heizhishi/'>黑执事</a>"],
+    8 : ["海贼王", "<a href='/cartoon/haizeiwang/'>海贼王</a>"],
+    288 : ["阿拉蕾", "<a href='/cartoon/alalei/'>阿拉蕾</a>"],
+    26 : ["圣斗士", "<a href='/cartoon/shengdoushi/'>圣斗士</a>"],
+    291 : ["AIR", "<a href='/cartoon/AIR/'>AIR</a>"],
+    259 : ["龙与虎", "<a href='/cartoon/longyuhu/'>龙与虎</a>"],
+    251 : ["薄樱鬼", "<a href='/cartoon/baoyinggui/'>薄樱鬼</a>"],
+    294 : ["噬魂师", "<a href='/cartoon/shihunshi/'>噬魂师</a>"],
+    262 : ["夏之岚", "<a href='/cartoon/xiazhilan/'>夏之岚</a>"],
+    243 : ["奥特曼", "<a href='/tags/%B0%C2%CC%D8%C2%FC'>奥特曼</a>"],
+    61 : ["逮捕令", "<a href='/cartoon/daiboling/'>逮捕令</a>"],
+    212 : ["达菲鸭", "<a href='/cartoon/dafeiya/'>达菲鸭</a>"],
+    136 : ["幸运星", "<a href='/cartoon/xingyunxing/'>幸运星</a>"],
+    209 : ["最游记", "<a href='/cartoon/zuiyouji/'>最游记</a>"],
+    204 : ["蜘蛛侠", "<a href='/cartoon/zhizhuxiadonghuapian/'>蜘蛛侠</a>"],
+    88 : ["鬼太郎", "<a href='/cartoon/guitailang/'>鬼太郎</a>"],
+    134 : ["老夫子", "<a href='/cartoon/laofuzi/'>老夫子</a>"],
+    133 : ["龙虎斗", "<a href='/cartoon/longhudou/'>龙虎斗</a>"],
+    118 : ["eva", "<a href='/cartoon/eva/'>eva</a>"],
+    190 : ["宫崎骏", "<a href='/cartoon/gongqijun/'>宫崎骏</a>"],
+    119 : ["猪猪侠", "<a href='/cartoon/zhuzhuxia/'>猪猪侠</a>"],
+    120 : ["肯普法", "<a href='/cartoon/kenpufa/'>肯普法</a>"],
+    123 : ["化物语", "<a href='/cartoon/huawuyu/'>化物语</a>"],
+    127 : ["海螺湾", "<a href='/cartoon/hailuowan/'>海螺湾</a>"],
+    215 : ["唐老鸭", "<a href='/cartoon/tanglaoya/'>唐老鸭</a>"],
+    217 : ["蓝精灵", "<a href='/cartoon/lanjingling/'>蓝精灵</a>"],
+    43 : ["机器猫", "<a href='/cartoon/jiqimao/'>机器猫</a>"],
+    240 : ["阿拉雷", "<a href='/cartoon/alalei/'>阿拉雷</a>"],
+    154 : ["迷途猫", "<a href='/cartoon/mitumao/'>迷途猫</a>"],
+    201 : ["阿拉丁", "<a href='/cartoon/alading/'>阿拉丁</a>"],
+    42 : ["动画片", "<a href='http://www.bukade.com/'>动画片</a>"],
+    228 : ["阿童木", "<a href='/cartoon/atongmu/'>阿童木</a>"],
+    227 : ["宝莲灯", "<a href='/cartoon/baoliandeng/'>宝莲灯</a>"],
+    226 : ["灰姑娘", "<a href='/cartoon/huiguniang/'>灰姑娘</a>"],
+    142 : ["凯蒂猫", "<a href='/cartoon/kaidimao/'>凯蒂猫</a>"],
+    137 : ["葫芦娃", "<a href='/cartoon/huluwa/'>葫芦娃</a>"],
+    223 : ["X战记", "<a href='/cartoon/xzhanji/'>X战记</a>"],
+    219 : ["通灵王", "<a href='/cartoon/tonglingwang/'>通灵王</a>"],
+    131 : ["西游记", "<a href='/cartoon/xiyouji-/'>西游记</a>"],
+    7 : ["死神", "<a href='/cartoon/sishen/'>死神</a>"],
+    181 : ["犬神", "<a href='/cartoon/quanshen/'>犬神</a>"],
+    299 : ["动画", "<a href='http://www.bukade.com/'>动画</a>"],
+    129 : ["刀语", "<a href='/cartoon/daoyu/'>刀语</a>"],
+    31 : ["银魂", "<a href='/cartoon/yinhun/'>银魂</a>"],
+    90 : ["蓝龙", "<a href='/cartoon/lanlong/'>蓝龙</a>"],
+    230 : ["龙猫", "<a href='/cartoon/longmao/'>龙猫</a>"],
+    211 : ["超人", "<a href='/cartoon/chaorendonghuapian/'>超人</a>"],
+    225 : ["圣传", "<a href='/cartoon/shengzhuang/'>圣传</a>"],
+    260 : ["小鸠", "<a href='/cartoon/xiaojiu/'>小鸠</a>"],
+    46 : ["棋魂", "<a href='/cartoon/qihun/'>棋魂</a>"],
+    242 : ["孔子", "<a href='/cartoon/kongzi/'>孔子</a>"]
+};

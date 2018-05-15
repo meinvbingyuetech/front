@@ -1,0 +1,41 @@
+<input id="wd-top1" name="wd-top1" type="text" placeholder="Graphite" onkeydown="javascript:if(event.keyCode==13){exec_search('wd-top1');}" onkeyup="getContent(this);" value="" >
+<input type="button" onclick="exec_search('wd-top1')">
+
+<script>
+function exec_search(element) {
+	var placeholder = $('#'+element).attr("placeholder");
+    var query_word = $.trim(document.getElementById(element).value);
+	
+    if(query_word=='' || query_word=='关键字'){query_word=placeholder;}
+    if (query_word) {
+        if (query_word.indexOf('+')>=0) {
+            query_word = query_word.replace('+', '');
+        }
+		//alert(query_word);
+        //location.href='/search-'+encodeURIComponent(query_word)+'-b0-c0-default-p1.html';
+		location.href='/category.html?keyword='+encodeURIComponent(query_word);
+		$('#'+element).val('')
+    } else {
+        document.getElementById(element).focus();
+    }
+    return false;
+}
+
+$(".p-input").keydown(function(event){
+	if(event.keyCode==13){
+		save_consult(goods_id);
+	}
+});
+
+
+$("#bonus_code,#points").bind('keyup',function(event) {
+	if (event.keyCode == 13) {
+		if(event.target.attributes.name.value=='points'){///////////////////<<<-----------这里判断是哪个input触发
+			points_bonus();
+		}
+		else if(event.target.attributes.name.value=='bonus_code'){
+			active_bonus();
+		}
+	}
+});	
+</script>

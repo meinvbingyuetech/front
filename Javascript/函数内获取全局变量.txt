@@ -1,0 +1,6 @@
+var url_key = 'test';
+
+function test(){
+	var _url_key = window.url_key;
+	alert(url_key);//直接获取
+}

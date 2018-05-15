@@ -1,0 +1,166 @@
+<html>
+<head>
+<title>表单</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<script language="javascript">
+jQuery(document).ready(function () {
+	jQuery('#login').submit(function () {
+		var u = jQuery('#username').val();
+		var p = jQuery('#password').val();
+		var y = jQuery('#yzm').val();
+		jQuery('#msg').html("");
+		var regu = /^[-]|[_]|[.]|[@]|[A-Za-z]*[a-z0-9]*$/;
+		var regp = /^[A-Za-z]*[a-z0-9_]*$/;
+
+		if (u.length < 5 || u.length > 32) {
+			jQuery('#msg').html("您输入的帐号长度有误！");
+		} else
+			if (p.length < 5 || p.length > 32) {
+				jQuery('#msg').html("您输入的密码长度有误！");
+			}
+			else if (y.length != 4) {
+				jQuery('#msg').html("您输入的验证码有误！");
+			}
+			else {
+				var reu = regu.test(u);
+				if (reu == false) {
+					jQuery('#msg').html("您输入的帐号格式有误！！");
+				}
+				var rep = regp.test(p);
+				if (rep == false) {
+					jQuery('#msg').html("您输入的密码格式有误！！");
+				}
+			}
+
+		if ((jQuery('#msg').html() != null) && (jQuery('#msg').html() != "")) {
+			jQuery('.login-alert').fadeIn();
+			return false;
+		} else
+			jQuery('.login-alert').fadeOut();
+
+	});
+	if ((jQuery('#msg').html() != null) && (jQuery('#msg').html() != "")) {
+		jQuery('.login-alert').fadeIn();
+	}
+
+	/***************************************/
+	jQuery('#tj').submit(function () {
+		jQuery('#msg').html("");
+		var regd = /^[A-Za-z0-9_\u4E00-\u9FA5]{1,20}([\.\-][A-Za-z0-9_\u4E00-\u9FA5]{1,40})*$/;
+		var regs = /^[\w\@\.]|[\u4e00-\u9fa5]*$/;
+		var regb = /^[\u4e00-\u9fa5]ICP(备|证)\d+号(-\d+)?/;
+
+		var s = jQuery('#beizhu').val();
+		if (s != "") {
+			var res = regs.test(s);
+			if (res == false) {
+				jQuery('#msg').html("您输入特殊需求信息不能含特殊字符，请重新填写！！");
+			}
+		}
+
+		/*
+		var b = jQuery('#beian').val();
+		var reb = regb.test(b);
+		if (reb == false) {
+			jQuery('#msg').html("您输入的备案号有误，请重新填写！！");
+			jQuery('#beian').val("");
+			setTimeout("jQuery('.login-alert').fadeOut(500);", 5000);
+		}*/
+
+		var d = jQuery('#domain').val();
+		var red = regd.test(d);
+		if (red == false) {
+			jQuery('#msg').html("您输入的域名格式有误，请重新填写！！");
+			setTimeout("jQuery('.login-alert').fadeOut(500);", 5000);
+		}
+		
+
+		var t = jQuery('#dty').val();
+		if ((t == "") || (t == "0")) {
+			jQuery('#msg').html("请选择您的网站类型！");
+			setTimeout("jQuery('.login-alert').fadeOut(500);", 5000);
+		}
+
+		if ((jQuery('#msg').html() != null) && (jQuery('#msg').html() != "")) {
+			jQuery('.login-alert').fadeIn();
+			setTimeout("jQuery('.login-alert').fadeOut(500);", 5000);
+			return false;
+		} else
+			jQuery('.login-alert').fadeOut();
+
+		return true;
+	});
+	if ((jQuery('#msg').html() != null) && (jQuery('#msg').html() != "")) {
+		jQuery('.login-alert').fadeIn();
+		setTimeout("jQuery('.login-alert').fadeOut(1000);", 6000);
+	}
+});
+
+
+function $$(id) { return document.getElementById(id); }
+function CheckPlay(myform) {
+    var form = $$(myform);
+    var j = 0;
+    var k = form.elements.length;
+    if (k > 100) { k = 100 }
+    var v = [];
+    for (var i = 0; i < k; i++) {
+        var e = form.elements[i];
+        if (e.type == "checkbox") {
+            if (e.checked == true) {
+                v.push(form.elements[i].value);
+            }
+        }
+    }
+    //alert(v.length);
+    if (v.length != 0) {
+        //window.alert(v.join(",") + "");
+        $$("tbpayids").value = v.join(",") + "";
+        //document.all.tbpayids.value = v.join(",") + "";
+    } else {
+
+        $$("tbpayids").value = "";
+        return false;
+
+    }
+}
+
+
+function CheckNO(myform) {
+    var strCBValue = "";
+    $$("tbpayids").value = "";
+    for (var i = 0; i < $$(myform).elements.length; i++) {  //用来历遍form中所有控件,
+        var e = $$(myform).elements[i];
+        if (e.type == "checkbox") {					//当是checkbox时才执行下面
+            e.checked = false;
+
+        }
+    }
+}
+
+</script>
+<body>
+
+<form name="login" method="post" action="login.aspx" id="login">
+<div class="loginpanelinner">
+	<div class="inputwrapper animate1 bounceIn">
+		<input name="username" type="text" id="username" placeholder="请输入用户名或邮箱" />
+	</div>
+	<div class="inputwrapper animate2 bounceIn">
+		<input name="password" type="password" id="password" placeholder="请输入登录密码" />
+	</div>
+	<div class="inputwrapper login-alert">
+		<div class="alert alert-error">
+			<span id="msg"></span>
+		</div>
+	</div>
+	<div class="inputwrapper animate3 bounceIn">
+		<button name="submit">登录</button>
+	</div>
+</div>
+</form>
+
+
+</body>
+</head>
+</html>

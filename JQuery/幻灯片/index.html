@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>无标题文档</title>
+<style type="text/css">
+*{margin:0;padding:0; font-family:Arial, Helvetica, sans-serif;}
+li{list-style-type:none;}
+#example {width:743px;height:350px;position:relative;}
+#ribbon {position:absolute;top:-3px;left:-15px;z-index:500;}
+#frame {position:absolute;z-index:0;width:739px;height:341px;top:-3px;left:-80px;}
+#slides {position:relative;z-index:100;}
+#slides .next,#slides .prev {position:absolute;top:107px;left:-39px;width:24px;height:43px;display:block;z-index:101;}
+.slides_container {width:743px;height:350px;overflow:hidden;position:absolute;}
+#slides .next {left:585px;}
+.pagination {width:130px;position:absolute;z-index:200;top:325px;left:610px;}
+.pagination li {float:left;margin:0 1px;}
+.pagination li a {display:block;width:22px;height:0;padding-top:10px;background-image:url(images/pagination.png);background-position:-28px 0;float:left;overflow:hidden;}
+.pagination li.current a {background-position:0 0;}
+.slides_control a{ position:absolute;}
+.caption {position:absolute; bottom:-308px;height:42px;padding:0px 10px;width:723px;font-size:14px;line-height:42px;color:#fff;opacity: 0.7; filter: Alpha(Opacity=70); background:#000;}
+</style>
+<script src="http://www.kan300.com/js/jquery.js"></script>
+<script src="js/slides.min.jquery.js"></script>
+<script type="text/javascript">
+		$(function(){
+			$('#slides').slides({
+				preload: true,
+				preloadImage: 'images/loading.gif',
+				play: 5000,
+				pause: 2500,
+				hoverPause: true,
+				animationStart: function(){
+					$('.caption').animate({
+						bottom:-392
+					},100);
+				},
+				animationComplete: function(current){
+					$('.caption').animate({
+						bottom:-350
+					},200);
+					if (window.console && console.log) {
+						// example return of current slide number
+						console.log(current);
+					};
+				}
+			});
+		});
+</script>
+</head>
+<body>
+<div id="example">
+  <div id="slides">
+    <div class="slides_container">
+      <div> <a href="#" title="1" target="_blank"><img src="images/11.jpg" alt=""></a>
+        <div class="caption" style="bottom:-350px;">
+          <p>《步步惊心》十四阿哥远征沙场 康熙驾崩四阿哥即位(更新至25集)</p>
+        </div>
+      </div>
+      <div> <a href="#" title="1" target="_blank"><img src="images/11.jpg" alt=""></a>
+        <div class="caption">
+          <p>《步步惊心》十四阿哥远征沙场 康熙驾崩四阿哥即位(更新至25集)</p>
+        </div>
+      </div>
+      <div> <a href="#" title="1" target="_blank"><img src="images/11.jpg" alt=""></a>
+        <div class="caption">
+          <p>《步步惊心》十四阿哥远征沙场 康熙驾崩四阿哥即位(更新至25集)</p>
+        </div>
+      </div>
+      <div> <a href="#" title="1" target="_blank"><img src="images/11.jpg" alt=""></a>
+        <div class="caption">
+          <p>《步步惊心》十四阿哥远征沙场 康熙驾崩四阿哥即位(更新至25集)</p>
+        </div>
+      </div>
+      <div> <a href="#" title="1" target="_blank"><img src="images/11.jpg" alt="Slide 5"></a>
+        <div class="caption">
+          <p>《步步惊心》十四阿哥远征沙场 康熙驾崩四阿哥即位(更新至25集)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

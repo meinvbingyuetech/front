@@ -1,0 +1,7 @@
+if(enable){
+	$('.account').css({'background':'#00ccc6','cursor':'pointer'});
+	$('.account').attr('onclick','checkout()');
+}else{
+	$('.account').css({'background':'#ccc','cursor':'not-allowed'});
+	$('.account').attr('onclick','');
+}
