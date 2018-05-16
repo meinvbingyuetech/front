@@ -74,3 +74,9 @@
     cnpm home mysql
     cnpm repo mysql
     ```
+
+----
+- 一些坑
+```
+npm install --no-bin-links.
+```
