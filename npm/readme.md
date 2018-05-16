@@ -78,5 +78,5 @@
 ----
 - 一些坑
 ```
-npm install --no-bin-links.
+npm install --no-bin-links
 ```
