@@ -9,7 +9,7 @@ $('.grid-row-delete').click(function () {
 });
 ```
  
-- 统计元素操作
+- 同级元素操作
 ```
 $('button[name="at_platform"]').click(function () {
                 var id = $(this).siblings('input[name="id"]').val();
