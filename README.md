@@ -24,3 +24,13 @@ if (!exp && typeof(exp)!=”undefined” && exp!=0)
 alert(“is null”); 
 }　
 ```
+### 数组转字符串
+```js
+var arr = [
+  '1',
+  '2',
+  '3'
+];
+var str = arr.join(',');
+console.log(str);
+```
