@@ -13,4 +13,7 @@ cnpm install
 
 # 启动项目，这样就可以本地开发调试了
 cnpm run dev
+
+# 构建正式项目，使用dist目录
+cnpm run build
 ```
